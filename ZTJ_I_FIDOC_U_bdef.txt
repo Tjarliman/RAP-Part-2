@@ -1,0 +1,43 @@
+unmanaged;// implementation in class zbp_tj_i_fidoc_u unique;
+
+define behavior for ZTJ_I_FIDOC_U alias header
+implementation in class zbp_tj_i_fidoc_u unique
+//late numbering
+lock master
+etag master aedat
+{
+  field ( readonly ) belnr, ernam, erdat, aedat, aenam, posted, postdoc;
+  field ( mandatory ) budat, bldat, waers;
+
+  create;
+  update( features : instance ) ;
+  //delete;
+  //actions
+  //action ( features : instance ) update result [1] $self;
+  action ( features : instance ) simulate result [1] $self;
+  action ( features : instance ) post result [1] $self;
+
+  association _item { create ( features : instance ); }
+
+
+}
+
+define behavior for ZTJ_I_FIDOCI_U alias _item
+implementation in class zbp_tj_i_fidoci_u unique
+//late numbering
+//lock dependent by _f
+//etag master <field_name>
+//etag dependent by header
+lock dependent by _header
+//authorization dependent by _Travel
+{
+  //create;
+  update;
+  delete;
+
+  field ( readonly ) bukrs, belnr, gjahr;
+  field ( mandatory ) hkont, dmbtr, bschl;
+
+  association _header;
+
+}
