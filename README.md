@@ -28,16 +28,24 @@ Here we will start to create our code using ABAP language.
 #Step 2 - Create Corresponding Class
 
 To create the corresponding class for our BDEF, we can create the class using SE24, or we can also do as below mentioned
+
+#Step 2.1 - BDEF Class for Header Part
   - Notice that in our BDEF there is a yellow icon like below
-  ![image](https://user-images.githubusercontent.com/39553318/190970734-0b9a1801-0418-40b2-8732-f1dac3ff594f.png)
+
+![image](https://user-images.githubusercontent.com/39553318/190970734-0b9a1801-0418-40b2-8732-f1dac3ff594f.png)
   - Click on it, then a pop up will appear
-  
-  ![image](https://user-images.githubusercontent.com/39553318/190971309-c420217d-6a3d-4585-a3b8-512fdb24479f.png)
-  - Then double click it, another wizard to create a class should be appearing.
+
+![image](https://user-images.githubusercontent.com/39553318/190971309-c420217d-6a3d-4585-a3b8-512fdb24479f.png)
+  - Then double click on it, another wizard to create a class should be appearing.
   ![image](https://user-images.githubusercontent.com/39553318/190971511-07a6e68c-1838-43b8-bd4e-bd0be4ca0be7.png)
   - then follow the instruction on the wizard
   - Once completed, you should be able to see this screen below, where you can copy and paste the code in ZTJ_BP_FIDOC_U.txt file into this screen. (make sure you are in the Local Type "TAB")
   - ![image](https://user-images.githubusercontent.com/39553318/190972145-b74ff3f7-b464-4453-95f8-aed47efc3927.png)
+  - ![image](https://user-images.githubusercontent.com/39553318/190973007-b86875c6-9efe-494a-8319-5b48b6885fbe.png)
 
+#Step 2.2 BDEF Class for Detail Part
+  - Do the same thing for the corresponding item class.
+  - You can copy the codes from ZTJ_BP_FIDOCI_U.txt for this Detail Part class. (remember to make sure that you are in the Local Type "TAB")
+  - ![image](https://user-images.githubusercontent.com/39553318/190973031-ab280991-8695-4846-979c-6a1fcf5c1706.png)
 
  
