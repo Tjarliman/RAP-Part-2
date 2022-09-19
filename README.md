@@ -25,3 +25,15 @@ Here we will start to create our code using ABAP language.
   - Once completed, save it, but dont activate it yet, since we need to create the corresponding ABAP class object. 
   - Actually for this time, we can just activate it, it is OK even though the class object still not yet created.
 
+#Step 2 - Create Corresponding Class
+
+To create the corresponding class for our BDEF, we can create the class using SE24, or we can also do as below mentioned
+  - Notice that in our BDEF there is a yellow icon like below
+  ![image](https://user-images.githubusercontent.com/39553318/190970734-0b9a1801-0418-40b2-8732-f1dac3ff594f.png)
+  - Click that Icon, then a pop up will appear
+  ![image](https://user-images.githubusercontent.com/39553318/190971309-c420217d-6a3d-4585-a3b8-512fdb24479f.png)
+  - Then double click it, another wizard to create a class should be appearing.
+  ![image](https://user-images.githubusercontent.com/39553318/190971511-07a6e68c-1838-43b8-bd4e-bd0be4ca0be7.png)
+  - then follow the instruction on the wizard
+
+ 
