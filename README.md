@@ -30,7 +30,7 @@ Here we will start to create our code using ABAP language.
   - Right click on the consumption artifact of the root entity, then click New Behaviour Definition
   
   ![image](https://user-images.githubusercontent.com/39553318/190974326-41656dd3-d11d-4764-a888-383972dbe840.png)
-  - Follow the wizard, then at the last step, you can copy and paste the code in ZTJ_C_FIDOC_U.txt into your artifact.
+  - Follow the wizard, then at the last step, you can copy and paste the code in ZTJ_C_FIDOC_U_bdef.txt into your artifact.
 
 #Step 2 - Create Corresponding Class
 
