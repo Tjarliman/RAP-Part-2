@@ -25,6 +25,13 @@ Here we will start to create our code using ABAP language.
   - Once completed, save it, but dont activate it yet, since we need to create the corresponding ABAP class object. 
   - Actually for this time, we can just activate it, it is OK even though the class object still not yet created.
 
+#Step 1.2 Create Behaviour Definition (BDEF) -  for Consumption artifact.
+
+  - Right click on the consumption artifact of the root entity, then click New Behaviour Definition
+  
+  ![image](https://user-images.githubusercontent.com/39553318/190974326-41656dd3-d11d-4764-a888-383972dbe840.png)
+  - Follow the wizard, then at the last step, you can copy and paste the code in ZTJ_C_FIDOC_U.txt into your artifact.
+
 #Step 2 - Create Corresponding Class
 
 To create the corresponding class for our BDEF, we can create the class using SE24, or we can also do as below mentioned
