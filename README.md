@@ -55,4 +55,7 @@ To create the corresponding class for our BDEF, we can create the class using SE
   - You can copy the codes from ZTJ_BP_FIDOCI_U.txt for this Detail Part class. (remember to make sure that you are in the Local Type "TAB")
   - ![image](https://user-images.githubusercontent.com/39553318/190973031-ab280991-8695-4846-979c-6a1fcf5c1706.png)
 
+Dont forget to activate all the artifacts you have been created. Once completed your class objects can be shown in this folder
+![image](https://user-images.githubusercontent.com/39553318/191138431-6bc19c6e-162c-4e55-897d-7bd2a8fe3c57.png)
+
  
