@@ -1,0 +1,22 @@
+projection;
+
+define behavior for ZTJ_C_FIDOC_U alias header
+
+{
+  use create;
+  use update;
+  //use delete;
+  use action simulate;
+  use action post;
+  use association _Item { create; }
+}
+
+define behavior for ZTJ_C_FIDOCI_U alias item
+
+{
+  //use create;
+  //use update;
+  use update;
+  use delete;
+  use association _Header;
+}
