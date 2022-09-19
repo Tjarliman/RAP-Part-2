@@ -35,5 +35,8 @@ To create the corresponding class for our BDEF, we can create the class using SE
   - Then double click it, another wizard to create a class should be appearing.
   ![image](https://user-images.githubusercontent.com/39553318/190971511-07a6e68c-1838-43b8-bd4e-bd0be4ca0be7.png)
   - then follow the instruction on the wizard
+  - Once completed, you should be able to see this screen below, where you can copy and paste the code in ZTJ_BP_FIDOC_U.txt file into this screen. (make sure you are in the Local Type "TAB")
+  - ![image](https://user-images.githubusercontent.com/39553318/190972145-b74ff3f7-b464-4453-95f8-aed47efc3927.png)
+
 
  
