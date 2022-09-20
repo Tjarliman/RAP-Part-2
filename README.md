@@ -97,3 +97,13 @@ Now let's change those generated codes in each of the artifacts with our custom 
 - Remember to change the entity names, to your entities name. See below in yellow, those are the new entity name
 - ![image](https://user-images.githubusercontent.com/39553318/191259509-9a18e4c4-a16f-45f2-b55b-6057b556e82e.png)
 - Activate both BDEFs.
+
+#Step 3.3 Update the Header BDEF class, Zbp_nnn_I_FIDOC_U.
+- Open the class, and copy and paste the code in ZBP_TJ_I_FIDOC_U.txt into it.
+- Dont forget to check if there are any lines with error, try to solve that error, if required change the entity name to your own name.
+- Active it
+
+#Step 3.4 Update the Item BDEF Class, Zbp_nnn_I_FIDOCI_U
+- Open the class, and copy and paste the code in ZBP_TJ_I_FIDOCI_U.txt into it.
+- Dont forget to check if there are any lines with error, try to solve that error, if required change the entity name to your own name.
+- Active it
