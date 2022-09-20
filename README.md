@@ -107,3 +107,5 @@ Now let's change those generated codes in each of the artifacts with our custom 
 - Open the class, and copy and paste the code in ZBP_TJ_I_FIDOCI_U.txt into it.
 - Dont forget to check if there are any lines with error, try to solve that error, if required change the entity name to your own name.
 - Active it
+
+If everything OK, we can try to Preview our OData service, and you will notice some differences with previous one. Can you spot the differences?
