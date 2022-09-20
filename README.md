@@ -113,3 +113,21 @@ If everything OK, we can try to Preview our OData service, and you will notice s
 1. Delete Button for header part was removed
 2. For those documents which having "Posted" as their status, we cannot add anymore items into it.
 3. ...etc
+
+#Step 3.5 Adding annotation to show the Post and Simulate button.
+
+Since we have implemented our custom code in our BDEF class. All we have to do is to add annotation into our "C" metadata extension.
+
+- Open the MDE of Znn_C_FIDOC_U
+- Find this part of code
+- ![image](https://user-images.githubusercontent.com/39553318/191264234-8802c37c-fd5c-4a4a-9545-28113124eae5.png)
+
+- add this lines of codes
+{ type: #FOR_ACTION, dataAction:'simulate', label: 'Simulate' },
+{ type: #FOR_ACTION, dataAction:'post', label: 'Post' },
+{ type: #FOR_ACTION, dataAction:'update', label: 'Edit' }
+
+- Pls. be notice the comma signs, they should be in the correct position.
+- Thens you should be able to see something like below
+- ![image](https://user-images.githubusercontent.com/39553318/191264610-5b1ff441-2e04-460e-90a1-bd7b0ae76bb6.png)
+ 
