@@ -61,7 +61,6 @@ To create the corresponding class for our BDEF, we can create the class using SE
   - Follow the wizard, once completed you should be able to see something like below
   - ![image](https://user-images.githubusercontent.com/39553318/191253476-1dfcb4fb-7128-43bb-955f-1c33264199b0.png)
 
-
 Dont forget to activate all the artifacts you have been created. Once completed your class objects can be shown in this folder
 ![image](https://user-images.githubusercontent.com/39553318/191138431-6bc19c6e-162c-4e55-897d-7bd2a8fe3c57.png)
 
@@ -70,7 +69,13 @@ Dont forget to activate all the artifacts you have been created. Once completed 
   - ![image](https://user-images.githubusercontent.com/39553318/191143066-be86247d-07c1-45f9-bb75-8005a475626b.png)
   - ![image](https://user-images.githubusercontent.com/39553318/191143131-6a16bc13-1b88-4969-bd24-35397d8a90c5.png)
   - Click the Preview button, then your service will be displayed in a web browser. If requested, you need to Enter your user id and pwd to access the backend server
-  - ![image](https://user-images.githubusercontent.com/39553318/191143254-c725a9f0-26b5-4216-ae32-5cb604996221.png)
+  - ![image](https://user-images.githubusercontent.com/39553318/191253928-f6d9e51e-a7df-45e9-971d-a03731633c56.png)
+  - Notice that the Create and Delete button are there
+  - When you click one of the item, you will be navigated to this screen below, and notice that you have Edit and Delete button
+  - ![image](https://user-images.githubusercontent.com/39553318/191254241-ca3f4c59-f65c-4401-80c0-6b2e6e2b20d0.png)
+  - when you click one of the item, you will also nagivated to another screen where Edit and Delete are now appearing
+  - ![image](https://user-images.githubusercontent.com/39553318/191254461-bd6be9a1-5b1a-4c1c-aa8d-3bde17a4b68a.png)
+
 
 
 
