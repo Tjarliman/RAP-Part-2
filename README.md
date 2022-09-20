@@ -76,6 +76,6 @@ Dont forget to activate all the artifacts you have been created. Once completed 
   - when you click one of the item, you will also nagivated to another screen where Edit and Delete are now appearing
   - ![image](https://user-images.githubusercontent.com/39553318/191254461-bd6be9a1-5b1a-4c1c-aa8d-3bde17a4b68a.png)
 
-
+ Notice that, those button are not really yet funcioned properly, due to in an "unmanaged" implementation type, all the CRUD logic must be typed/build from the scratch. THis is not the case when we use the "managed" implementation type. But that's for you to go deeper into this and more to see what I mean.
 
 
