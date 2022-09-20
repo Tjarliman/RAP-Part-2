@@ -92,3 +92,8 @@ Now let's change those generated codes in each of the artifacts with our custom 
 - once completed you should be able to something like below, with your own entity name on it
 - ![image](https://user-images.githubusercontent.com/39553318/191258008-080f68ba-6a4b-4969-b57a-aa099857ce76.png)
 
+#Step 3.2 Update the "C" Behaviour Definition
+- Open the Znn_C_FIDOC_U BDEF, then copy and paste the code from ZTJ_C_FIDOC_U_bdef.txt
+- Remember to change the entity names, to your entities name. See below in yellow, those are the new entity name
+- ![image](https://user-images.githubusercontent.com/39553318/191259509-9a18e4c4-a16f-45f2-b55b-6057b556e82e.png)
+- Activate both BDEFs.
