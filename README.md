@@ -20,10 +20,15 @@ Here we will start to create our code using ABAP language.
   - Once clicked, the next screen will appear
   - ![image](https://user-images.githubusercontent.com/39553318/190392966-f18c9cfe-d395-4c4c-becd-aeb48c4918eb.png)
   - This time, we chose Unmanaged as Implementation Type.
-  - You can copy and paste the code in the file ZTJ_I__FIDOC_U_bdef.txt into your new artifact
-  - Dont forget to change the entity name to follow your entity name space, ZTJ_xxx into Znn_xxx, nn is your unique ID.
-  - Once completed, save it, but dont activate it yet, since we need to create the corresponding ABAP class object. 
-  - Actually for this time, we can just activate it, it is OK even though the class object still not yet created.
+  - Once completed you should be able to see something like below
+  ![image](https://user-images.githubusercontent.com/39553318/191250955-66e9f53f-0745-4d4a-b7b1-c975f23936e7.png)
+
+  - Then edit it, so it will be like below
+  
+  ![image](https://user-images.githubusercontent.com/39553318/191250683-2f112eec-05da-4b4a-8549-1f9a9e040a96.png)
+  
+  - Pls. notice that the command "implementation in class" was moved, and now we have 2 of them.
+  - Now activate it
 
 #Step 1.2 Create Behaviour Definition (BDEF) -  for Consumption artifact.
 
