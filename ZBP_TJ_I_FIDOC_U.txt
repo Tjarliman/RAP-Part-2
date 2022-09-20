@@ -1,0 +1,372 @@
+CLASS lhc_header DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PRIVATE SECTION.
+    TYPES tt_header_failed    TYPE TABLE FOR FAILED   ztj_i_fidoc_u.
+    TYPES tt_header_reported  TYPE TABLE FOR REPORTED ztj_i_fidoc_u.
+
+    METHODS create FOR MODIFY
+      IMPORTING entities FOR CREATE header.
+*
+    METHODS update FOR MODIFY
+      IMPORTING keys FOR UPDATE header .
+*    METHODS update FOR MODIFY
+*      IMPORTING keys FOR ACTION header~update RESULT result.
+
+    METHODS lock FOR LOCK
+      IMPORTING keys FOR LOCK header.
+
+    METHODS read FOR READ
+      IMPORTING keys FOR READ header RESULT result.
+
+    METHODS cba_item FOR MODIFY
+      IMPORTING entities_cba FOR CREATE header\_item.
+
+    METHODS rba_item FOR READ
+      IMPORTING keys_rba FOR READ header\_item FULL result_requested RESULT result LINK association_links.
+
+    METHODS get_features FOR FEATURES
+      IMPORTING keys REQUEST requested_features FOR header RESULT result.
+
+    METHODS simulate FOR MODIFY
+      IMPORTING keys FOR ACTION header~simulate RESULT result.
+
+    METHODS post FOR MODIFY
+      IMPORTING keys FOR ACTION header~post RESULT result.
+
+    METHODS map_messages
+      IMPORTING
+        cid          TYPE string         OPTIONAL
+        bukrs        TYPE bukrs OPTIONAL
+        belnr        TYPE belnr_d OPTIONAL
+        gjahr        TYPE gjahr OPTIONAL
+        messages     TYPE bapiret2_t
+      EXPORTING
+        failed_added TYPE abap_bool
+      CHANGING
+        failed       TYPE tt_header_failed
+        reported     TYPE tt_header_reported.
+ENDCLASS.
+
+CLASS lhc_header IMPLEMENTATION.
+
+  METHOD create.
+    "BREAK trusadi.
+    READ TABLE entities INDEX 1 INTO DATA(ls_entity).
+    APPEND INITIAL LINE TO mapped-header ASSIGNING FIELD-SYMBOL(<lfs_mapphdr>).
+
+    <lfs_mapphdr>-%cid = ls_entity-%cid.
+    <lfs_mapphdr>-bukrs = ls_entity-bukrs.
+    IF ls_entity-belnr = ''.
+      DATA(lv_number) = CONV belnr_d( zcl_tj_fidoc=>number_get_next( i_year = ls_entity-gjahr ) ).
+      <lfs_mapphdr>-belnr = ls_entity-belnr = |${ lv_number+1 }|.
+    ELSE.
+      <lfs_mapphdr>-belnr = ls_entity-belnr.
+    ENDIF.
+    <lfs_mapphdr>-gjahr = ls_entity-gjahr.
+
+    DATA(ls_fidoc) = CORRESPONDING ztj_fidoc( ls_entity ).
+    ls_fidoc-status = '1'.
+    DATA(lt_fidoc) = VALUE ztjtt_fidoc( ( ls_fidoc ) ).
+
+
+*    MODIFY ztj_fidoc FROM ls_fidoc.
+    CALL FUNCTION 'ZTJ_FIDOC_COLLECT_HDR'
+      EXPORTING
+        it_header = lt_fidoc.
+
+  ENDMETHOD.
+
+  METHOD update.
+    "BREAK trusadi.
+    DATA: r_descr TYPE REF TO cl_abap_structdescr,
+          wa_comp TYPE abap_compdescr.
+
+    "BREAK trusadi.
+    LOOP AT keys INTO DATA(lw_key).
+      SELECT SINGLE * FROM ztj_fidoc
+                  WHERE bukrs = @lw_key-bukrs
+                  AND   belnr = @lw_key-belnr
+                  AND   gjahr = @lw_key-gjahr
+                  INTO @DATA(ls_fidoc).
+
+
+      r_descr ?= cl_abap_typedescr=>describe_by_data( lw_key ).
+      DATA(lw_control) = lw_key-%control.
+
+      LOOP AT r_descr->components INTO wa_comp.
+        CHECK wa_comp-name(1) <> '%'.
+        DATA(lv_fieldnm) = |LW_CONTROL-{ wa_comp-name }|.
+        ASSIGN (lv_fieldnm) TO FIELD-SYMBOL(<lfs_fieldnm>).
+        IF <lfs_fieldnm> = '01'.
+          lv_fieldnm = |LW_KEY-{ wa_comp-name }|.
+          ASSIGN (lv_fieldnm) TO <lfs_fieldnm>.
+          ASSIGN COMPONENT wa_comp-name OF STRUCTURE ls_fidoc TO FIELD-SYMBOL(<lfs_fidoc>).
+          <lfs_fidoc> = <lfs_fieldnm>.
+        ENDIF.
+      ENDLOOP.
+
+      DATA(lt_fidoc) = VALUE ztjtt_fidoc( ( ls_fidoc ) ).
+    ENDLOOP.
+    CALL FUNCTION 'ZTJ_FIDOC_COLLECT_HDR'
+      EXPORTING
+        it_header = lt_fidoc.
+  ENDMETHOD.
+
+  METHOD lock.
+  ENDMETHOD.
+
+  METHOD read.
+    "BREAK trusadi.
+*    LOOP AT keys ASSIGNING FIELD-SYMBOL(<lfs_hdr>) GROUP BY <lfs_hdr>-%tky.
+*      SELECT SINGLE * FROM ztj_fidoc
+*          WHERE bukrs = @<lfs_hdr>-bukrs
+*          AND   belnr = @<lfs_hdr>-belnr
+*          AND   gjahr = @<lfs_hdr>-gjahr
+*          INTO @DATA(lw_fidoc).
+*
+*      INSERT CORRESPONDING #( lw_fidoc ) INTO TABLE result.
+*    ENDLOOP.
+    SELECT * FROM ztj_fidoc
+        FOR ALL ENTRIES IN @keys
+        WHERE bukrs = @keys-bukrs
+        AND   belnr = @keys-belnr
+        AND   gjahr = @keys-gjahr
+        INTO CORRESPONDING FIELDS OF TABLE @result.
+  ENDMETHOD.
+
+  METHOD cba_item.
+    LOOP AT entities_cba ASSIGNING FIELD-SYMBOL(<header>).
+      APPEND INITIAL LINE TO mapped-header ASSIGNING FIELD-SYMBOL(<lfs_mapphdr>).
+      <lfs_mapphdr>-%cid = <header>-%cid_ref.
+      <lfs_mapphdr>-bukrs = <header>-bukrs.
+      <lfs_mapphdr>-belnr = <header>-belnr.
+      <lfs_mapphdr>-gjahr = <header>-gjahr.
+
+      LOOP AT <header>-%target ASSIGNING FIELD-SYMBOL(<item>).
+        APPEND INITIAL LINE TO mapped-_item ASSIGNING FIELD-SYMBOL(<lfs_mappitm>).
+        <lfs_mappitm> = CORRESPONDING #( <item> ).
+        <lfs_mappitm>-bukrs = <header>-bukrs.
+        <lfs_mappitm>-belnr = <lfs_mapphdr>-belnr.
+        <lfs_mappitm>-gjahr = <header>-gjahr.
+        DATA(ls_fidoci) = CORRESPONDING ztj_fidoci( <item> ).
+        ls_fidoci = CORRESPONDING ztj_fidoci( BASE ( ls_fidoci ) <lfs_mappitm> ).
+        DATA(lt_fidoci) = VALUE ztjtt_fidoci( ( ls_fidoci ) ).
+      ENDLOOP.
+    ENDLOOP.
+
+    CALL FUNCTION 'ZTJ_FIDOC_COLLECT_ITM'
+      EXPORTING
+        it_item = lt_fidoci.
+  ENDMETHOD.
+
+  METHOD rba_item.
+    BREAK trusadi.
+  ENDMETHOD.
+
+  METHOD get_features.
+    "BREAK trusadi.
+    READ ENTITIES OF ztj_i_fidoc_u IN LOCAL MODE
+      ENTITY header
+        FIELDS ( bukrs belnr gjahr status )
+        WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_header_read_results)
+    FAILED failed.
+
+    result = VALUE #(
+      FOR lw_header_read_result IN lt_header_read_results (
+        %tky                                = lw_header_read_result-%tky
+        %features-%action-simulate = COND #( WHEN lw_header_read_result-status <> '1' AND lw_header_read_result-status <> '4'
+                                                      THEN if_abap_behv=>fc-o-disabled ELSE if_abap_behv=>fc-o-enabled )
+        %features-%action-post = COND #( WHEN lw_header_read_result-status <> '4'
+                                                      THEN if_abap_behv=>fc-o-disabled ELSE if_abap_behv=>fc-o-enabled )
+*        %features-%action-update = COND #( WHEN lw_header_read_result-status = '2'
+*                                                      THEN if_abap_behv=>fc-o-disabled ELSE if_abap_behv=>fc-o-enabled )
+        %assoc-_item                     = COND #( WHEN lw_header_read_result-status = '2'
+                                                      THEN if_abap_behv=>fc-o-disabled ELSE if_abap_behv=>fc-o-enabled )
+      ) ).
+  ENDMETHOD.
+
+  METHOD simulate.
+    "BREAK trusadi.
+    DATA lt_fidoc TYPE ztjtt_fidoc.
+    LOOP AT keys INTO DATA(lw_key).
+      DATA(ls_fidoc) = CORRESPONDING ztj_fidoc( lw_key ).
+      "DATA(lt_fidoc) = VALUE ztjtt_fidoc( ( ls_fidoc )  ).
+      CALL FUNCTION 'ZTJ_FIDOC_READ_HDR'
+        EXPORTING
+          i_bukrs   = lw_key-bukrs
+          i_belnr   = lw_key-belnr
+          i_gjahr   = lw_key-gjahr
+        IMPORTING
+          it_header = lt_fidoc.
+
+      IF lines(  lt_fidoc ) > 0.
+        ls_fidoc = lt_fidoc[ 1 ].
+      ENDIF.
+      EXIT.
+    ENDLOOP.
+    DATA lt_return TYPE TABLE OF bapiret2.
+    CALL FUNCTION 'ZTJ_FIDOC_SIMULATE'
+      EXPORTING
+        it_header = lt_fidoc
+      IMPORTING
+        et_return = lt_return.
+
+    map_messages(
+      EXPORTING
+        "cid          TYPE string         OPTIONAL
+        bukrs        = ls_fidoc-bukrs
+        belnr        = ls_fidoc-belnr
+        gjahr        = ls_fidoc-gjahr
+        messages     = lt_return
+      IMPORTING
+        failed_added = DATA(lv_failed)
+      CHANGING
+        failed       = failed-header
+        reported     = reported-header
+        ).
+
+    DATA ls_header_result LIKE LINE OF result.
+    IF lv_failed IS INITIAL.
+      ls_fidoc-status = '4'."ready to be posted
+      MODIFY lt_fidoc FROM ls_fidoc TRANSPORTING status
+        WHERE bukrs = ls_fidoc-bukrs
+        AND belnr = ls_fidoc-belnr AND gjahr = ls_fidoc-gjahr.
+
+      ls_header_result-bukrs = ls_fidoc-bukrs.
+      ls_header_result-belnr = ls_fidoc-belnr.
+      ls_header_result-gjahr = ls_fidoc-gjahr.
+      ls_header_result-%param = CORRESPONDING #( ls_fidoc ).
+      APPEND ls_header_result TO result.
+
+      CALL FUNCTION 'ZTJ_FIDOC_COLLECT_HDR'
+        EXPORTING
+          it_header = lt_fidoc.
+
+      CALL FUNCTION 'ZTJ_FIDOC_SAVE'..
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD map_messages.
+    failed_added = abap_false.
+    LOOP AT messages INTO DATA(message).
+      IF message-type = 'E' OR message-type = 'A'.
+        APPEND VALUE #( %cid        = cid
+                        bukrs    = bukrs
+                        belnr    = belnr
+                        gjahr = gjahr
+                        %fail-cause = ztj_cl_fidoc_auzxiliary=>get_cause_from_message(
+                                        msgid = message-id
+                                        msgno = message-number
+                                      ) )
+               TO failed.
+        failed_added = abap_true.
+      ENDIF.
+
+      APPEND VALUE #( %msg          = new_message(
+                                        id       = message-id
+                                        number   = message-number
+                                        severity = COND #( WHEN message-type = 'E' THEN if_abap_behv_message=>severity-error ELSE
+                                                           COND #( WHEN message-type = 'S' THEN if_abap_behv_message=>severity-success ) )
+                                        v1       = message-message_v1
+                                        v2       = message-message_v2
+                                        v3       = message-message_v3
+                                        v4       = message-message_v4 )
+                      %cid          = cid
+                      bukrs      = bukrs
+                      belnr = belnr
+                      gjahr = gjahr )
+             TO reported.
+    ENDLOOP.
+  ENDMETHOD.
+
+  METHOD post.
+    "BREAK trusadi.
+    DATA lt_fidoc TYPE ztjtt_fidoc.
+    LOOP AT keys INTO DATA(lw_key).
+      DATA(ls_fidoc) = CORRESPONDING ztj_fidoc( lw_key ).
+      "DATA(lt_fidoc) = VALUE ztjtt_fidoc( ( ls_fidoc )  ).
+      CALL FUNCTION 'ZTJ_FIDOC_READ_HDR'
+        EXPORTING
+          i_bukrs   = lw_key-bukrs
+          i_belnr   = lw_key-belnr
+          i_gjahr   = lw_key-gjahr
+        IMPORTING
+          it_header = lt_fidoc.
+
+      IF lines(  lt_fidoc ) > 0.
+        ls_fidoc = lt_fidoc[ 1 ].
+      ENDIF.
+      EXIT.
+    ENDLOOP.
+    DATA lt_return TYPE TABLE OF bapiret2.
+    DATA lv_belnr TYPE belnr_d.
+    CALL FUNCTION 'ZTJ_FIDOC_POST'
+      EXPORTING
+        it_header = lt_fidoc
+      IMPORTING
+        et_return = lt_return
+        ev_belnr  = lv_belnr.
+
+    map_messages(
+      EXPORTING
+        "cid          TYPE string         OPTIONAL
+        bukrs        = ls_fidoc-bukrs
+        belnr        = ls_fidoc-belnr
+        gjahr        = ls_fidoc-gjahr
+        messages     = lt_return
+      IMPORTING
+        failed_added = DATA(lv_failed)
+      CHANGING
+        failed       = failed-header
+        reported     = reported-header
+        ).
+
+    DATA ls_header_result LIKE LINE OF result.
+    IF lv_failed IS INITIAL.
+      ls_fidoc-status = '2'."posted
+      ls_fidoc-postdoc = lv_belnr.
+      MODIFY lt_fidoc FROM ls_fidoc TRANSPORTING status postdoc
+        WHERE bukrs = ls_fidoc-bukrs
+        AND belnr = ls_fidoc-belnr AND gjahr = ls_fidoc-gjahr.
+
+      ls_header_result-bukrs = ls_fidoc-bukrs.
+      ls_header_result-belnr = ls_fidoc-belnr.
+      ls_header_result-gjahr = ls_fidoc-gjahr.
+      ls_header_result-%param = CORRESPONDING #( ls_fidoc ).
+      APPEND ls_header_result TO result.
+
+      CALL FUNCTION 'ZTJ_FIDOC_COLLECT_HDR'
+        EXPORTING
+          it_header = lt_fidoc.
+
+      CALL FUNCTION 'ZTJ_FIDOC_SAVE'.
+    ENDIF.
+  ENDMETHOD.
+
+ENDCLASS.
+
+CLASS lsc_ztj_i_fidoc_u DEFINITION INHERITING FROM cl_abap_behavior_saver.
+  PROTECTED SECTION.
+
+    METHODS check_before_save REDEFINITION.
+
+    METHODS finalize          REDEFINITION.
+
+    METHODS save              REDEFINITION.
+
+ENDCLASS.
+
+CLASS lsc_ztj_i_fidoc_u IMPLEMENTATION.
+
+  METHOD check_before_save.
+  ENDMETHOD.
+
+  METHOD finalize.
+  ENDMETHOD.
+
+  METHOD save.
+    "BREAK trusadi.
+    CALL FUNCTION 'ZTJ_FIDOC_SAVE'.
+  ENDMETHOD.
+
+ENDCLASS.
