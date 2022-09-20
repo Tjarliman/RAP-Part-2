@@ -132,3 +132,8 @@ Since we have implemented our custom code in our BDEF class. All we have to do i
 - ![image](https://user-images.githubusercontent.com/39553318/191264610-5b1ff441-2e04-460e-90a1-bd7b0ae76bb6.png)
  
 - Once completed, pls. activate it.
+
+Now you should be able to preview you service again, and see the new look / differences.
+![image](https://user-images.githubusercontent.com/39553318/191265340-a3f59b0b-1430-4422-a309-3f5619cac490.png)
+
+GOOD LUCK !!!
