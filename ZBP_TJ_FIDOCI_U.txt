@@ -1,0 +1,92 @@
+CLASS lhc__item DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PRIVATE SECTION.
+
+*    METHODS create FOR MODIFY
+*      IMPORTING entities FOR CREATE _item.
+
+    METHODS update FOR MODIFY
+      IMPORTING keys FOR UPDATE _item.
+
+    METHODS delete FOR MODIFY
+      IMPORTING keys FOR DELETE _item.
+
+    METHODS read FOR READ
+      IMPORTING keys FOR READ _item RESULT result.
+
+    METHODS rba_header FOR READ
+      IMPORTING keys_rba FOR READ _item\_header FULL result_requested RESULT result LINK association_links.
+
+ENDCLASS.
+
+CLASS lhc__item IMPLEMENTATION.
+
+  METHOD update.
+    DATA: r_descr TYPE REF TO cl_abap_structdescr,
+          wa_comp TYPE abap_compdescr.
+    DATA lt_fidoci TYPE ztjtt_fidoci.
+
+    "BREAK trusadi.
+    LOOP AT keys INTO DATA(lw_key).
+      SELECT SINGLE * FROM ztj_fidoci
+                  WHERE bukrs = @lw_key-bukrs
+                  AND   belnr = @lw_key-belnr
+                  AND   gjahr = @lw_key-gjahr
+                  AND   buzei = @lw_key-buzei
+                  INTO @DATA(ls_fidoci).
+
+
+      r_descr ?= cl_abap_typedescr=>describe_by_data( lw_key ).
+      DATA(lw_control) = lw_key-%control.
+
+      LOOP AT r_descr->components INTO wa_comp.
+        CHECK wa_comp-name(1) <> '%'.
+        DATA(lv_fieldnm) = |LW_CONTROL-{ wa_comp-name }|.
+        ASSIGN (lv_fieldnm) TO FIELD-SYMBOL(<lfs_fieldnm>).
+        IF <lfs_fieldnm> = '01'.
+          lv_fieldnm = |LW_KEY-{ wa_comp-name }|.
+          ASSIGN (lv_fieldnm) TO <lfs_fieldnm>.
+          ASSIGN COMPONENT wa_comp-name OF STRUCTURE ls_fidoci TO FIELD-SYMBOL(<lfs_fidoci>).
+          <lfs_fidoci> = <lfs_fieldnm>.
+        ENDIF.
+      ENDLOOP.
+
+      "DATA(lt_fidoci) = append VALUE ztjtt_fidoci( ( ls_fidoci ) ).
+      APPEND ls_fidoci TO lt_fidoci.
+    ENDLOOP.
+    CALL FUNCTION 'ZTJ_FIDOC_COLLECT_ITM'
+      EXPORTING
+        it_item = lt_fidoci.
+  ENDMETHOD.
+
+  METHOD delete.
+    BREAK trusadi.
+    DATA: r_descr TYPE REF TO cl_abap_structdescr,
+          wa_comp TYPE abap_compdescr.
+    DATA lt_fidoci TYPE ztjtt_fidoci.
+
+    "BREAK trusadi.
+    LOOP AT keys INTO DATA(lw_key).
+
+      DATA(ls_fidoci) = VALUE ztj_fidoci(
+        bukrs = lw_key-bukrs
+        belnr = lw_key-belnr
+        gjahr = lw_key-gjahr
+        buzei = lw_key-buzei
+        loekz = 'X'
+      ).
+      APPEND ls_fidoci TO lt_fidoci.
+    ENDLOOP.
+    CALL FUNCTION 'ZTJ_FIDOC_COLLECT_ITM'
+      EXPORTING
+        it_item = lt_fidoci.
+  ENDMETHOD.
+
+  METHOD read.
+    BREAK trusadi.
+  ENDMETHOD.
+
+  METHOD rba_header.
+    BREAK trusadi.
+  ENDMETHOD.
+
+ENDCLASS.
