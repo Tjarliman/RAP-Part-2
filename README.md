@@ -35,7 +35,9 @@ Here we will start to create our code using ABAP language.
   - Right click on the consumption artifact of the root entity, then click New Behaviour Definition
   
   ![image](https://user-images.githubusercontent.com/39553318/190974326-41656dd3-d11d-4764-a888-383972dbe840.png)
-  - Follow the wizard, then at the last step, you can copy and paste the code in ZTJ_C_FIDOC_U_bdef.txt into your artifact.
+  - Follow the wizard, and once completed you should be able to see something like below.
+  ![image](https://user-images.githubusercontent.com/39553318/191252010-19903bc3-cc39-46de-b1e3-e4ce973d9a95.png)
+
 
 #Step 2 - Create Corresponding Class
 
@@ -51,14 +53,14 @@ To create the corresponding class for our BDEF, we can create the class using SE
   - Then double click on it, another wizard to create a class should be appearing.
   ![image](https://user-images.githubusercontent.com/39553318/190971511-07a6e68c-1838-43b8-bd4e-bd0be4ca0be7.png)
   - then follow the instruction on the wizard
-  - Once completed, you should be able to see this screen below, where you can copy and paste the code in ZTJ_BP_FIDOC_U.txt file into this screen. (make sure you are in the Local Type "TAB")
-  - ![image](https://user-images.githubusercontent.com/39553318/190972145-b74ff3f7-b464-4453-95f8-aed47efc3927.png)
-  - ![image](https://user-images.githubusercontent.com/39553318/190973007-b86875c6-9efe-494a-8319-5b48b6885fbe.png)
+  - Once completed, you should be able to see this screen below, (make sure you are in the Local Type "TAB")
+  - ![image](https://user-images.githubusercontent.com/39553318/191252924-1b37aaab-a163-4e01-aa4a-54af1248b7e3.png)
 
 #Step 2.2 BDEF Class for Detail Part
-  - Do the same thing for the corresponding item class.
-  - You can copy the codes from ZTJ_BP_FIDOCI_U.txt for this Detail Part class. (remember to make sure that you are in the Local Type "TAB")
-  - ![image](https://user-images.githubusercontent.com/39553318/190973031-ab280991-8695-4846-979c-6a1fcf5c1706.png)
+  - Do the same thing to create the corresponding item class.
+  - Follow the wizard, once completed you should be able to see something like below
+  - ![image](https://user-images.githubusercontent.com/39553318/191253476-1dfcb4fb-7128-43bb-955f-1c33264199b0.png)
+
 
 Dont forget to activate all the artifacts you have been created. Once completed your class objects can be shown in this folder
 ![image](https://user-images.githubusercontent.com/39553318/191138431-6bc19c6e-162c-4e55-897d-7bd2a8fe3c57.png)
