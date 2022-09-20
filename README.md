@@ -109,3 +109,7 @@ Now let's change those generated codes in each of the artifacts with our custom 
 - Active it
 
 If everything OK, we can try to Preview our OData service, and you will notice some differences with previous one. Can you spot the differences?
+
+1. Delete Button for header part was removed
+2. For those documents which having "Posted" as their status, we cannot add anymore items into it.
+3. ...etc
