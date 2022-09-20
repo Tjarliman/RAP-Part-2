@@ -78,4 +78,9 @@ Dont forget to activate all the artifacts you have been created. Once completed 
 
  Notice that, those button are not really yet functioning properly, due to, in an "unmanaged" implementation type, all the CRUD logic must be typed/build from the scratch. THis is not the case when we use the "managed" implementation type. But that's for you to go deeper into this and more to see what I mean.
 
+#Step 3 Change standard's code.
 
+Now let's change those generated codes in each of the artifacts with our custom code by doing copy and paste.
+
+#Step 3.1 Update the "I" Behaviour Definition
+- Open the Znn_I_FIDOC_U BDEF, then copy and paste the code from ZTJ_I_FIDOC_U_bdef.txt
