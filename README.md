@@ -1,4 +1,4 @@
-# Restful ABAP Programming Model-Part-2
+# Restful ABAP Programming Model - PART2
 
 Let's continue our learning into this Part 2 of the RAP Concept.
 In this lesson, we will create a transactional application using RAP Concept.
